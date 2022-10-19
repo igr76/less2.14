@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Service implements StringList{
@@ -17,8 +18,12 @@ public class Service implements StringList{
 
     @Override
     public String add(int index, String item) {
-        if (index > element.length) {
+        if (index > element.length-1) {
             throw new ArrayIndexOutOfBoundsException();
+        }
+        int index1 =element.length;
+        for (int i = element.length - 1; i >= index+1; i--) {
+            element[i] = element[i-1];
         }
         element[index] = item;
         return item;
@@ -26,6 +31,10 @@ public class Service implements StringList{
 
     @Override
     public String set(int index, String item) {
+        if (item == null) {
+            System.out.println("значение не может быть нулевым");
+            return item;
+        }
         if (index > element.length) {
             throw new ArrayIndexOutOfBoundsException();
         }
@@ -37,8 +46,10 @@ public class Service implements StringList{
     @Override
     public String remove(String item) throws DataException {
         for (int i = 0; i < element.length; i++) {
-            if (element[i] == item) {
-                element[i] = null;
+            if (element[i] == item) {if (i < element.length){
+                for (int i1 = i; i1 < element.length-1; i1++) {
+                    element[i] = element[i+1];
+                }}
                 return item;
             }
         }throw new DataException();
@@ -46,8 +57,12 @@ public class Service implements StringList{
 
     @Override
     public String remove(int index) {
-                    if (element[index] != null) {  element[index] = null;}
-                    return element[index];
+        String element1 = element[index];
+        if (index < element.length){
+            for (int i = index; i < element.length-1; i++) {
+                element[i] = element[i+1];
+            }}
+            return element1;
     }
 
     @Override
